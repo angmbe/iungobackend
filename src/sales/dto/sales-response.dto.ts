@@ -1,0 +1,30 @@
+export class SalesResponseDto {
+  localItemDesc?: string;
+  wrin: string;
+  store: number;
+  dc: number;
+  countryCode: number;
+  restoCountryCode: number;
+  orderNum: string;
+  solLine: number;
+  dateOrd: Date;
+  shipTo: number;
+  delDate: Date;
+  transDate: Date;
+  qty: number;
+  fcaCost: number;
+  fcaCurr: string;
+  freeDc: number;
+  freeDcCurr: string;
+  freeRest: number;
+  freeRCurr: string;
+  poNum?: string;
+  shipDt: Date;
+  delMeth?: string;
+  localFlag?: string;
+  gtin?: string;
+  dcGln?: string;
+  shipToGln?: string;
+  facilityGln?: string;
+  logDate: Date;
+}
