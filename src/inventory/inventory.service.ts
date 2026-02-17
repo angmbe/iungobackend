@@ -17,7 +17,9 @@ export class InventoryService {
     localItemDesc?: string,
     wrin?: string,
     dcWsi?: string,
+    facilityCountry?: string,
     supplierName?: string,
+    logDate?: string,
   ): Promise<InventoryResponseDto[]> {
 
     let connection: oracledb.Connection | undefined;
@@ -63,10 +65,21 @@ export class InventoryService {
         binds.dcWsi = dcWsi;
       }
 
+      if (facilityCountry) {
+        query += ` AND FACILITY_COUNTRY = :facilityCountry`;
+        binds.facilityCountry = facilityCountry;
+      }
+
       if (supplierName) {
         query += ` AND UPPER(SUPPLIER_NAME) LIKE '%' || UPPER(:supplierName) || '%'`;
         binds.supplierName = supplierName;
       }
+
+      if (logDate) {
+        query += ` AND LOG_DATE >= TO_DATE(:logDate, 'YYYY-MM-DD') AND LOG_DATE < TO_DATE(:logDate, 'YYYY-MM-DD') + 1`;
+        binds.logDate = logDate;
+      }
+    
 
       const result = await connection.execute(
         query,

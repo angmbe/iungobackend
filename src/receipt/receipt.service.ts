@@ -8,6 +8,7 @@ interface ReceiptFilters {
   supplierName?: string;
   wsi?: number;
   dc?: number;
+  logDate?: string;
 }
 
 @Injectable()
@@ -50,6 +51,14 @@ export class ReceiptService {
     if (filters.dc) {
       conditions.push(`DC = :dc`);
       binds.dc = filters.dc;
+    }
+
+    if (filters.logDate) {
+      conditions.push(`
+        LOG_DATE >= TO_DATE(:logDate, 'YYYY-MM-DD')
+        AND LOG_DATE < TO_DATE(:logDate, 'YYYY-MM-DD') + 1
+      `);
+      binds.logDate = filters.logDate;
     }
 
     const whereClause =

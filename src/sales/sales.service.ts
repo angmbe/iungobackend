@@ -7,6 +7,8 @@ interface SalesFilters {
   wrin?: string;
   store?: number;
   dc?: number;
+  countryCode?: string;
+  logDate?: string;
 }
 
 @Injectable()
@@ -39,7 +41,7 @@ export class SalesService {
     }
 
     if (filters.wrin) {
-      conditions.push(`WRIN = :wrin`);
+      conditions.push(`TRIM(WRIN) = TRIM(:wrin)`);
       binds.wrin = filters.wrin;
     }
 
@@ -51,6 +53,19 @@ export class SalesService {
     if (filters.dc) {
       conditions.push(`DC = :dc`);
       binds.dc = filters.dc;
+    }
+
+    if (filters.countryCode) {
+      conditions.push(`COUNTRYCODE = :countryCode`);
+      binds.countryCode = filters.countryCode;
+    }
+
+    if (filters.logDate) {
+      conditions.push(`
+        LOG_DATE >= TO_DATE(:logDate, 'YYYY-MM-DD')
+        AND LOG_DATE < TO_DATE(:logDate, 'YYYY-MM-DD') + 1
+      `);
+      binds.logDate = filters.logDate;
     }
 
     const whereClause =

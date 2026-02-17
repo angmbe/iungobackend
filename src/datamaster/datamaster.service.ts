@@ -18,6 +18,8 @@ export class DataMasterService {
     wsi?: number;
     localItem?: string;
     localItemDesc?: string;
+    supplierName?: string;
+    logDate?: string;
   }): Promise<DataMasterResponseDto[]> {
 
     let connection: oracledb.Connection | undefined;
@@ -26,7 +28,7 @@ export class DataMasterService {
     const binds: any = {};
 
     if (filters.wrin) {
-      conditions.push('WRIN = :wrin');
+      conditions.push('TRIM(WRIN) = TRIM(:wrin)');
       binds.wrin = filters.wrin;
     }
 
@@ -43,6 +45,19 @@ export class DataMasterService {
     if (filters.localItemDesc) {
       conditions.push('UPPER(LOCAL_ITEM_DESC) LIKE UPPER(:localItemDesc)');
       binds.localItemDesc = `%${filters.localItemDesc}%`;
+    }
+
+    if (filters.supplierName) {
+      conditions.push(`UPPER(SUPPLIER_NAME) LIKE UPPER(:supplierName)`);
+      binds.supplierName = `%${filters.supplierName}%`;
+    }
+
+    if (filters.logDate) {
+      conditions.push(`
+        LOG_DATE >= TO_DATE(:logDate, 'YYYY-MM-DD')
+        AND LOG_DATE < TO_DATE(:logDate, 'YYYY-MM-DD') + 1
+      `);
+      binds.logDate = filters.logDate;
     }
 
     const whereClause = conditions.length

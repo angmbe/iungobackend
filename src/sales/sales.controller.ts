@@ -14,6 +14,14 @@ constructor(private readonly salesService: SalesService) {}
 @ApiQuery({ name: 'wrin', required: false })
 @ApiQuery({ name: 'store', required: false })
 @ApiQuery({ name: 'dc', required: false })
+@ApiQuery({ name: 'countryCode', required: false })
+@ApiQuery({
+    name: 'logDate',
+    required: false,
+    type: String,
+    example: '2024-01-01',
+    description: 'Fecha de log (formato YYYY-MM-DD)',
+  })
   @ApiQuery({
     name: 'page',
     required: false,
@@ -38,6 +46,8 @@ constructor(private readonly salesService: SalesService) {}
     @Query('wrin') wrin?: string,
     @Query('store') store?: number,
     @Query('dc') dc?: number,
+    @Query('logDate') logDate?: string,
+    @Query('countryCode') countryCode?: string,
     @Query('page') page?: string,
     @Query('limit') limit?: string,
   ): Promise<SalesResponseDto[]> {
@@ -50,6 +60,8 @@ constructor(private readonly salesService: SalesService) {}
       wrin,
       store: store ? Number(store) : undefined,
       dc: dc ? Number(dc) : undefined,
+      countryCode,
+      logDate
     });
   }
 }

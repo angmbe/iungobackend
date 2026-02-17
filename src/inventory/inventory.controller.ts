@@ -12,7 +12,15 @@ export class InventoryController {
 @ApiQuery({ name: 'localItemDesc', required: false })
 @ApiQuery({ name: 'wrin', required: false })
 @ApiQuery({ name: 'dcWsi', required: false })
+@ApiQuery({ name: 'facilityCountry', required: false })
 @ApiQuery({ name: 'supplierName', required: false })
+@ApiQuery({
+    name: 'logDate',
+    required: false,
+    type: String,
+    example: '2024-01-01',
+    description: 'Fecha de log (formato YYYY-MM-DD)',
+  })
       @ApiOkResponse({
         description: 'Listado de inventario histórico',
         type: InventoryResponseDto,
@@ -22,14 +30,18 @@ async getAll(
     @Query('localItemDesc') localItemDesc?: string,
     @Query('wrin') wrin?: string,
     @Query('dcWsi') dcWsi?: string,
+    @Query('facilityCountry') facilityCountry?: string,
     @Query('supplierName') supplierName?: string,
+    @Query('logDate') logDate?: string,
   ): Promise<InventoryResponseDto[]> {
 
     return this.inventoryService.findAll(
       localItemDesc,
       wrin,
       dcWsi,
+      facilityCountry,
       supplierName,
+      logDate,
     );
   }
 }

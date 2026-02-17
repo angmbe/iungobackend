@@ -13,6 +13,14 @@ export class DataMasterController {
   @ApiQuery({ name: 'wsi', required: false })
   @ApiQuery({ name: 'localItem', required: false })
   @ApiQuery({ name: 'localItemDesc', required: false })
+  @ApiQuery({ name: 'supplierName', required: false })
+  @ApiQuery({
+    name: 'logDate',
+    required: false,
+    type: String,
+    example: '2024-01-01',
+    description: 'Fecha de log (formato YYYY-MM-DD)',
+  })
   @ApiOkResponse({
     description: 'Listado DataMaster histórico',
     type: DataMasterResponseDto,
@@ -23,12 +31,16 @@ export class DataMasterController {
     @Query('wsi') wsi?: string,
     @Query('localItem') localItem?: string,
     @Query('localItemDesc') localItemDesc?: string,
+    @Query('supplierName') supplierName?: string,
+    @Query('logDate') logDate?: string,
   ): Promise<DataMasterResponseDto[]> {
     return this.service.findAll({
       wrin,
       wsi: wsi ? Number(wsi) : undefined,
       localItem,
       localItemDesc,
+      supplierName,
+      logDate,
     });
   }
 }
