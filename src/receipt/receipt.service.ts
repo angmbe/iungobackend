@@ -8,6 +8,7 @@ interface ReceiptFilters {
   supplierName?: string;
   wsi?: number;
   dc?: number;
+  countryCode?: string;
   logDate?: string;
 }
 
@@ -52,6 +53,11 @@ export class ReceiptService {
       conditions.push(`DC = :dc`);
       binds.dc = filters.dc;
     }
+
+    if (filters.countryCode) {
+        conditions.push('COUNTRYCODE = :countryCode');
+        binds.countryCode = filters.countryCode;
+      }
 
     if (filters.logDate) {
       conditions.push(`

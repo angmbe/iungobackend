@@ -14,6 +14,7 @@ export class DataMasterController {
   @ApiQuery({ name: 'localItem', required: false })
   @ApiQuery({ name: 'localItemDesc', required: false })
   @ApiQuery({ name: 'supplierName', required: false })
+  @ApiQuery({ name: 'dcCountry', required: false })
   @ApiQuery({
     name: 'logDate',
     required: false,
@@ -32,6 +33,7 @@ export class DataMasterController {
     @Query('localItem') localItem?: string,
     @Query('localItemDesc') localItemDesc?: string,
     @Query('supplierName') supplierName?: string,
+    @Query('dcCountry') dcCountry?: string,
     @Query('logDate') logDate?: string,
   ): Promise<DataMasterResponseDto[]> {
     return this.service.findAll({
@@ -40,6 +42,7 @@ export class DataMasterController {
       localItem,
       localItemDesc,
       supplierName,
+      dcCountry,
       logDate,
     });
   }

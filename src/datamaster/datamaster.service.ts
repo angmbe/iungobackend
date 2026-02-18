@@ -19,6 +19,7 @@ export class DataMasterService {
     localItem?: string;
     localItemDesc?: string;
     supplierName?: string;
+    dcCountry?: string;
     logDate?: string;
   }): Promise<DataMasterResponseDto[]> {
 
@@ -51,6 +52,11 @@ export class DataMasterService {
       conditions.push(`UPPER(SUPPLIER_NAME) LIKE UPPER(:supplierName)`);
       binds.supplierName = `%${filters.supplierName}%`;
     }
+
+    if (filters.dcCountry) {
+        conditions.push('DC_COUNTRY = :dcCountry');
+        binds.dcCountry = filters.dcCountry;
+      }
 
     if (filters.logDate) {
       conditions.push(`

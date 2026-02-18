@@ -14,6 +14,7 @@ export class ReceiptController {
 @ApiQuery({ name: 'supplierName', required: false })
 @ApiQuery({ name: 'wsi', required: false })
 @ApiQuery({ name: 'dc', required: false })
+@ApiQuery({ name: 'countryCode', required: false })
     @ApiOkResponse({
       description: 'Listado de recibos históricos',
       type: ReceiptResponseDto,
@@ -32,6 +33,7 @@ async getAll(
     @Query('supplierName') supplierName?: string,
     @Query('wsi') wsi?: string,
     @Query('dc') dc?: number,
+    @Query('countryCode') countryCode?: string,
     @Query('logDate') logDate?: string,
 ): Promise<ReceiptResponseDto[]> {
       return this.receiptService.findAll({
@@ -40,6 +42,7 @@ async getAll(
         supplierName,
         wsi: wsi ? Number(wsi) : undefined,
         dc: dc ? Number(dc) : undefined,
+        countryCode,
         logDate,
       });
     }
